@@ -13,6 +13,8 @@ port = 'com5'
 board = pyfirmata.Arduino(port)
 sleep(5)
 ledPin = board.get_pin('d:3:p')
+
+# main window
 top = tkinter.Tk()
 top.title("Practica 1")
 
@@ -30,8 +32,6 @@ label1.grid(row=1, column=2)
 top.config(bg="white")
 
 # Funcion Boton de Iniciar
-
-
 def onButtonPress():
     startButton.config(state=tkinter.DISABLED)
     ledPin.write(1)
@@ -44,6 +44,11 @@ def changeButtonPress():
     ledBrightnees = float(ledBrightnees)
     ledPin.write(ledBrightnees/100.0)
 
+# Scale cambia de valor
+def changeScale(v):
+    startButton.config(state=tkinter.ACTIVE)
+    ledBrightnees = float(v)
+    ledPin.write(ledBrightnees/100.0)
 
 # Funcion Boton de Apagar
 def offButtonPress():
@@ -57,7 +62,8 @@ def offButtonPress():
 changeButton = tkinter.Button(
     top, text="Intensidad", width=15, bg="yellow", command=changeButtonPress)
 brightnessScale = tkinter.Scale(top, length=200, sliderlength=10, width=15,
-                                bg="yellow", troughcolor="gray", from_=1, to=100, orient=tkinter.HORIZONTAL)
+                                bg="yellow", troughcolor="gray", from_=1, to=100, orient=tkinter.HORIZONTAL,
+                                command=changeScale)
 brightnessScale.grid(column=1, row=5)
 changeButton.grid(column=1, row=4)
 
@@ -76,8 +82,10 @@ exitButton = tkinter.Button(
     top, text="Salir", width=15, bg="white", command=top.quit)
 exitButton.grid(column=2, row=5)
 
-brightnessScale.grid()
-startButton.grid()
-offButton.grid()
-changeButton.grid()
+# brightnessScale.grid()
+# startButton.grid()
+# offButton.grid()
+# changeButton.grid()
+
+# start the program
 top.mainloop()
